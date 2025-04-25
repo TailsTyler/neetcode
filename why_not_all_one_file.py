@@ -67,4 +67,19 @@ class Solution:
             print(suffix)
         return ans
         
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        len_board = len(board)
+        
+        cols = [{} for _ in range(len(board[0]))]
+        sub_boxes = 9
+        sub_boxes = int(math.pow(sub_boxes, .5))
+        sub_boxes = [[{} for j in range(sub_boxes)] for i in range(sub_boxes)]
+        for i, r in enumerate(board):
+            for j, x in enumerate(r):
+                return False if x in rows[i] else rows[i][x] = "it doesnt matter what i am ;("
+                return False if x in cols[j] else cols[j][x] = "it doesnt matter what i am ;("
+                return False if x in sub_boxes[i][j] else sub_boxes[i][j][x] = "it doesnt matter what i am ;("
+        return True
 
+        
