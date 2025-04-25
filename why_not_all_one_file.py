@@ -80,6 +80,7 @@ class Solution:
                 return False if x in rows[i] else rows[i][x] = "it doesnt matter what i am ;("
                 return False if x in cols[j] else cols[j][x] = "it doesnt matter what i am ;("
                 return False if x in sub_boxes[i][j] else sub_boxes[i][j][x] = "it doesnt matter what i am ;("
-        return True
+        return change on remote True
+        
 
         
