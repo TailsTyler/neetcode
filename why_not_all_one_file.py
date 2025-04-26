@@ -169,3 +169,39 @@ class Solution:
         return True
 
 
+
+
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        note = {}
+        smallest = nums[0]
+        biggest = nums[0]
+        for n in nums:
+            if n not in note:
+                note[n] = n
+                if n < smallest:
+                    smallest = n
+                elif n > biggest:
+                    biggest = n
+        print("len(note)", len(note))
+        print("smallest ", smallest)
+        print("biggest ", biggest)
+        ans = 0
+        current_run = 0
+        last_one_was_1_less = False
+        for i in range(smallest, biggest):
+            if i in note:
+                current_run += 1
+                last_one_was_1_less = True
+            else:
+                if current_run > ans:
+                    ans = current_run
+                current_run = 0
+                last_one_was_1_less = False
+        if current_run > ans:
+            ans = current_run
+        return ans
+
+
+
