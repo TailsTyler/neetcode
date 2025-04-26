@@ -209,21 +209,26 @@ class Solution:
 
 
 
-
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        chars_to_ignore = " !?.,"
+        chars_to_ignore = " !?.,\'\""
+        allowed_chars = 'qwertyuioplkjhgfdsazxcvbnm'
         s = s.lower()
         while len(s) > 0:
-            while s[0] in chars_to_ignore:
+            while not s[0].isalnum():
                 print("removed ", s[0], " from front")
                 s = s[1:]
-            while s[-1] in chars_to_ignore:
+                if len(s) == 0:
+                    return True
+            while not s[-1].isalnum():
                 s = s[:-1]
                 print("removed ", s[-1], " from back")
+                if len(s) == 0:
+                    return True
             if s[0] == s[-1]:
+                print(s[0], " == ", s[-1])
                 s = s[1:-1]
-                #print('.')
+                print("so s is now ", s)
             else:
                 print(s[0], " != ", s[-1])
                 return False
