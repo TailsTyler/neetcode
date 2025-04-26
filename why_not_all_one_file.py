@@ -208,3 +208,23 @@ class Solution:
         return ans
 
 
+
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        chars_to_ignore = " !?.,"
+        s = s.lower()
+        while len(s) > 0:
+            while s[0] in chars_to_ignore:
+                print("removed ", s[0], " from front")
+                s = s[1:]
+            while s[-1] in chars_to_ignore:
+                s = s[:-1]
+                print("removed ", s[-1], " from back")
+            if s[0] == s[-1]:
+                s = s[1:-1]
+                #print('.')
+            else:
+                print(s[0], " != ", s[-1])
+                return False
+        return True
