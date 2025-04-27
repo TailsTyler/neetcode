@@ -251,3 +251,49 @@ class Solution:
 
 
 
+
+
+
+def first_non_neg_in_sorted_list(sorted_list):
+    left, right = 0, len(sorted_list) - 1
+    while left <= right:
+        mid = (left + right) // 2
+
+        # Check if mid is the first positive integer
+        if sorted_list[mid] > 0:
+            # Check if it's the first positive integer
+            if mid == 0 or arr[mid - 1] <= 0:
+                return mid
+            else:
+                right = mid - 1  # Search in the left half
+        else:
+            left = mid + 1  # Search in the right half
+
+    return None  # Return None if no positive integer is found
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        i, j, k = 0, 1, max(2, first_non_neg_in_sorted_list(nums)):
+        ans = []
+        for i in range(len(nums)) :
+            if i > 0:
+                return ans
+            try:
+                nums_at_j_must_be = -(nums[i] + nums[k])
+                j = nums.index(nums_at_j_must_be)
+                while True:
+                    ans.append([nums[i], nums[j], nums[k]])
+                    j+=1
+                    if j == k or nums[j] != nums_at_j_must_be:
+                        break
+            except:
+                pass
+
+
+
+        while nums[0] <= 0:
+
+
+
+        
