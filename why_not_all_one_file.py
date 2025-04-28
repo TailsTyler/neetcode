@@ -209,91 +209,44 @@ class Solution:
 
 
 
-class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        chars_to_ignore = " !?.,\'\""
-        allowed_chars = 'qwertyuioplkjhgfdsazxcvbnm'
-        s = s.lower()
-        while len(s) > 0:
-            while not s[0].isalnum():
-                print("removed ", s[0], " from front")
-                s = s[1:]
-                if len(s) == 0:
-                    return True
-            while not s[-1].isalnum():
-                s = s[:-1]
-                print("removed ", s[-1], " from back")
-                if len(s) == 0:
-                    return True
-            if s[0] == s[-1]:
-                print(s[0], " == ", s[-1])
-                s = s[1:-1]
-                print("so s is now ", s)
-            else:
-                print(s[0], " != ", s[-1])
-                return False
-        return True
-
-
-
-    class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        front = 0
-        back = len(numbers) - 1
-        while front != back:
-            if numbers[front] + numbers[back] == target:
-                return [front + 1, back + 1]
-            elif numbers[front] + numbers[back] < target:
-                front += 1
-            else:
-                back -= 1
-        return "error"
-
-
-
-
 
 
 def first_non_neg_in_sorted_list(sorted_list):
     left, right = 0, len(sorted_list) - 1
     while left <= right:
         mid = (left + right) // 2
-
-        # Check if mid is the first positive integer
-        if sorted_list[mid] > 0:
-            # Check if it's the first positive integer
-            if mid == 0 or arr[mid - 1] <= 0:
+        if sorted_list[mid] >= 0:
+            if mid == 0 and arr[mid - 1] < 0:
                 return mid
             else:
-                right = mid - 1  # Search in the left half
+                right = mid - 1
         else:
-            left = mid + 1  # Search in the right half
-
-    return None  # Return None if no positive integer is found
+            left = mid + 1
+    return None
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
-        i, j, k = 0, 1, max(2, first_non_neg_in_sorted_list(nums)):
+        i = 0
+        j = 1
+        k = max(2, first_non_neg_in_sorted_list(nums))
         ans = []
-        for i in range(len(nums)) :
-            if i > 0:
-                return ans
-            try:
-                nums_at_j_must_be = -(nums[i] + nums[k])
-                j = nums.index(nums_at_j_must_be)
-                while True:
-                    ans.append([nums[i], nums[j], nums[k]])
-                    j+=1
-                    if j == k or nums[j] != nums_at_j_must_be:
-                        break
-            except:
-                pass
+        while i > 0:
+            while k < len(nums - 1):
+                try:
+                    nums_at_j_must_be = -(nums[i] + nums[k])
+                    j = nums.index(nums_at_j_must_be, i, k)
+                    while True:
+                        ans.append([nums[i], nums[j], nums[k]])
+                        j+=1
+                        if j == k or nums[j] != nums_at_j_must_be:
+                            break
+                except:
+                    pass
+                k+=1
+            i+=1
+        return ans
 
 
 
-        while nums[0] <= 0:
 
-
-
-        
