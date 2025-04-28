@@ -210,13 +210,13 @@ class Solution:
 
 
 
-
 def first_non_neg_in_sorted_list(sorted_list):
     left, right = 0, len(sorted_list) - 1
     while left <= right:
         mid = (left + right) // 2
+        print("mid:", mid,"; sorted_list[mid]: ", sorted_list[mid])
         if sorted_list[mid] >= 0:
-            if mid == 0 and arr[mid - 1] < 0:
+            if sorted_list[mid] == 0 and sorted_list[mid - 1] < 0:
                 return mid
             else:
                 right = mid - 1
@@ -230,6 +230,7 @@ class Solution:
         i = 0
         j = 1
         k = max(2, first_non_neg_in_sorted_list(nums))
+        print("k: ", k)
         ans = []
         while i > 0:
             while k < len(nums - 1):
@@ -242,11 +243,14 @@ class Solution:
                         if j == k or nums[j] != nums_at_j_must_be:
                             break
                 except:
-                    pass
+                    continue
                 k+=1
+                print("k: ", k)
             i+=1
+            print("i: ", i)
         return ans
 
 
 
+        
 
