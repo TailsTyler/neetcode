@@ -209,12 +209,11 @@ class Solution:
 
 
 
-
 def first_non_neg_in_sorted_list(sorted_list):
     left, right = 0, len(sorted_list) - 1
     while left <= right:
         mid = (left + right) // 2
-        print("mid:", mid,"; sorted_list[mid]: ", sorted_list[mid])
+        # print("mid:", mid,"; sorted_list[mid]: ", sorted_list[mid])
         if sorted_list[mid] >= 0:
             if sorted_list[mid] == 0 and sorted_list[mid - 1] < 0:
                 return mid
@@ -222,35 +221,36 @@ def first_non_neg_in_sorted_list(sorted_list):
                 right = mid - 1
         else:
             left = mid + 1
-    return None
+    return 2
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
+        ans = []
+        if nums[0] > 0:
+            print("no nonpositives")
+            return ans
+        if nums[-1] < 0:
+            print ('no nonnegitives')
+            return ans
         i = 0
         j = 1
-        k = max(2, first_non_neg_in_sorted_list(nums))
+        k = first_non_neg_in_sorted_list(nums)
         print("k: ", k)
-        ans = []
-        while i > 0:
+        while i <= 0:
             while k < len(nums - 1):
-                try:
-                    nums_at_j_must_be = -(nums[i] + nums[k])
-                    j = nums.index(nums_at_j_must_be, i, k)
-                    while True:
-                        ans.append([nums[i], nums[j], nums[k]])
-                        j+=1
-                        if j == k or nums[j] != nums_at_j_must_be:
-                            break
-                except:
-                    continue
+                nums_at_j_must_be = -(nums[i] + nums[k])
+                print("nums_at_j_must_be: ", nums_at_j_must_be)
+                j = nums.index(nums_at_j_must_be, i, k)
+                print("j: ", j)
+                while True:
+                    ans.append([nums[i], nums[j], nums[k]])
+                    j+=1
+                    if j == k or nums[j] != nums_at_j_must_be:
+                        break
                 k+=1
                 print("k: ", k)
             i+=1
             print("i: ", i)
         return ans
-
-
-
-        
 
