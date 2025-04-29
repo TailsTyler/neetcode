@@ -209,6 +209,11 @@ class Solution:
 
 
 
+
+
+
+
+
 def first_non_neg_in_sorted_list(sorted_list):
     left, right = 0, len(sorted_list) - 1
     while left <= right:
@@ -235,22 +240,34 @@ class Solution:
             return ans
         i = 0
         j = 1
+        print(nums)
         k = first_non_neg_in_sorted_list(nums)
-        print("k: ", k)
+        print("k: ", k, "(index of ",  nums[k], ")")
         while i <= 0:
-            while k < len(nums - 1):
+            while k < len(nums) - 1:
                 nums_at_j_must_be = -(nums[i] + nums[k])
                 print("nums_at_j_must_be: ", nums_at_j_must_be)
-                j = nums.index(nums_at_j_must_be, i, k)
-                print("j: ", j)
-                while True:
-                    ans.append([nums[i], nums[j], nums[k]])
-                    j+=1
-                    if j == k or nums[j] != nums_at_j_must_be:
-                        break
+                try:
+                    j = nums.index(nums_at_j_must_be, i, k)
+                    print("j: ", j)
+                    while True:
+                        try:
+                            q = ans.index([nums[i], nums[j], nums[k]])
+                            print([nums[i], nums[j], nums[k]], " is already at ", q)
+                        except:
+                            ans.append([nums[i], nums[j], nums[k]])
+                            print("added ", [nums[i], nums[j], nums[k]])
+                        j+=1
+                        if j == k or nums[j] != nums_at_j_must_be:
+                            break
+                except:
+                    print(nums_at_j_must_be, " not found")
                 k+=1
-                print("k: ", k)
+                print("k: ", k, "(index of ",  nums[k], ")")
             i+=1
-            print("i: ", i)
+            print("i: ", i, " which has a ", nums[i])
         return ans
 
+
+
+        
