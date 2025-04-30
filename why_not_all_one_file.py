@@ -213,7 +213,6 @@ class Solution:
 
 
 
-
 def first_non_neg_in_sorted_list(sorted_list):
     left, right = 0, len(sorted_list) - 1
     while left <= right:
@@ -241,14 +240,18 @@ class Solution:
         i = 0
         j = 1
         print(nums)
-        k = first_non_neg_in_sorted_list(nums)
+        first_non_neg = first_non_neg_in_sorted_list(nums)
+        k = first_non_neg
         print("k: ", k, "(index of ",  nums[k], ")")
-        while i <= 0:
-            while k < len(nums) - 1:
+        nums_i = nums[i]
+        while nums_i <= 0:
+            k = max(first_non_neg, i + 2)
+            print("k: ", k)#, "(index of ",  nums[k], ")")
+            while k < len(nums):
                 nums_at_j_must_be = -(nums[i] + nums[k])
                 print("nums_at_j_must_be: ", nums_at_j_must_be)
                 try:
-                    j = nums.index(nums_at_j_must_be, i, k)
+                    j = nums.index(nums_at_j_must_be, i + 1, k)
                     print("j: ", j)
                     while True:
                         try:
@@ -263,11 +266,11 @@ class Solution:
                 except:
                     print(nums_at_j_must_be, " not found")
                 k+=1
-                print("k: ", k, "(index of ",  nums[k], ")")
             i+=1
-            print("i: ", i, " which has a ", nums[i])
+            try:
+                nums_i = nums[i]
+            except:
+                break
+            print("i: ", i)#, " which has a ", nums[i])
         return ans
 
-
-
-        
