@@ -306,35 +306,44 @@ class Solution:
 
 
 
+[200~class Solution:
+      count_water(l, r, height) -> int:
+          if l > 0 and r > 0:
+              d = r - l
+          if r > l:
+              rectangle = l * d
+          else:
+              rectangle = r * d
+          stuff_in_between = 0
+          for i in range(l + 1, r):
+              stuff_in_between += height[i]
+          return rectangle - stuff_in_between
+      def trap(self, height: List[int]) -> int:
+          l = 0 #index of left side of a possible pool
+          r = 0 #index of current spot being considered for the right side of a pool
+          t = 0 # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
+          water = 0 #water found
+          while True:
+              if height[r] >= height[t]:
+                  t = r
+              if height[r] >= height[l]: #found the right side of a pool because it is as high as the left
+                  count_water(l, t, height)
+                  #reset values because now seaarching for next pool
+                  t = i
+                  last_i = i
+              elif r == len(height) - 1: 
+                  #look for pools where the right side is lower than the left
+                  if t > l:
+                      #pool found
+                      water += count_water(l, t, height)
+                      l = t
+                      r = t
+              else:
+                  r += 1
+          #record final pool
+          height[t]
 
+              
+                  
 
-class Solution:
-    def trap(self, height: List[int]) -> int:
-        l = 0 #index of left side of a possible pool
-        r = 0 #index of current spot being consideded for the right side of a pool
-        t = 0 # index of tallest found so far to the right of last_i
-        area = 0 #water found
-        while True:
-            if height[r] > height[t]:
-                t = i
-            if h >= last_h: #found the right side of a pool
-                if h > 0 and last > 0:
-                    d = i - last_i
-                    if h > last:
-                        rectangle = last * d
-                    else:
-                        rectangle = h * d
-                    stuff_in_between = 0
-                    for i in range(last_i, i):
-                        stuff_in_between += height[i]
-                    area += rectangle - stuff_in_between
-                #reset values because now seaarching for next pool
-                t = i
-                last_i = i
-        #record final pool
-        height[t]
-
-            
-                
-
-        return 10
+          return 10
