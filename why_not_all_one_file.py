@@ -303,13 +303,21 @@ class Solution:
 
 
 
+
+
+
+
+
 class Solution:
     def trap(self, height: List[int]) -> int:
-        last_h = 0
-        last_i = 0
-        sum = 0
-        for i, h in enumerate(height):
-            if h > last_h:
+        l = 0 #index of left side of a possible pool
+        r = 0 #index of current spot being consideded for the right side of a pool
+        t = 0 # index of tallest found so far to the right of last_i
+        area = 0 #water found
+        while True:
+            if height[r] > height[t]:
+                t = i
+            if h >= last_h: #found the right side of a pool
                 if h > 0 and last > 0:
                     d = i - last_i
                     if h > last:
@@ -320,6 +328,13 @@ class Solution:
                     for i in range(last_i, i):
                         stuff_in_between += height[i]
                     area += rectangle - stuff_in_between
+                #reset values because now seaarching for next pool
+                t = i
+                last_i = i
+        #record final pool
+        height[t]
 
+            
+                
 
         return 10
