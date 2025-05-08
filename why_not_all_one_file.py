@@ -300,3 +300,26 @@ class Solution:
                 break
         return area
 
+
+
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        last_h = 0
+        last_i = 0
+        sum = 0
+        for i, h in enumerate(height):
+            if h > last_h:
+                if h > 0 and last > 0:
+                    d = i - last_i
+                    if h > last:
+                        rectangle = last * d
+                    else:
+                        rectangle = h * d
+                    stuff_in_between = 0
+                    for i in range(last_i, i):
+                        stuff_in_between += height[i]
+                    area += rectangle - stuff_in_between
+
+
+        return 10
