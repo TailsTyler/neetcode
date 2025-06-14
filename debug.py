@@ -21,44 +21,54 @@ class Solution:
         print("new water = rectangle - stuff_in_between = ", rectangle, " - ", stuff_in_between)
         return rectangle - stuff_in_between
     #for passing all the way thru the first time, then backwarks to stop
-    def pass(self) -> None:
-        if not stop:
-            back = 0 #index of back, first-reached-in-this-pass side of a possible pool. no stop so this is the first, full pass
-        else:
-            back = len(height) - 1 #this is the second, backwards pass to the stop point
+    def walk(self) -> None:
+        while self.front != self.stop:
+            if self.height[self.front] >= self.height[self.t]:
+                print("self.height[self.front] >= self.height[t]:")
+                t = self.front
+            if self.front > self.back + 1 and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
+                print("counting water with l = ", self.back, " and self.front = ", self.front)
+                self.water += Solution.count_water(self.back, t, self.height)
+                print("water == ", self.water)
+                #reset values because now searching for next pool
+                t = self.front
+                self.back = self.front
+            else:
+                self.front += self.direction
+                print("front == ", self.front)
+                print("back == ", self.back)
+                print("t == ", self.t)
+                print('\n')
+    def trap(self, height: list[int]) -> int:
+        self.height = height
+        self.water = 0 #water found
+
+        self.direction = 1 #unit with sign indicating
+        self.stop = len(height) - 1 #where to stop on this pass
+        self.back = 0 #index of back, first-reached-in-this-pass side of a possible pool
         for i, h in enumerate(height):
             if h > 0:
-                l = i
-                print("l = ", back)
+                self.back = i
+                print("back = ", self.back)
                 break
-        front = l + 1 #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
-        t = front # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
-        while front != len(height) - 1:
-            if height[front] >= height[t]:
-                print("height[front] >= height[t]:")
-                t = r
-            if front > l + 1 and height[front] >= height[l]: #found the right side of a pool because it is as high as the left
-                print("counting water with l = ", l, " and front = ", front)
-                water += Solution.count_water(l, t, height)
-                print("water == ", water)
-                #reset values because now searching for next pool
-                t = front
-                l = front
-            else:
-                front += 1
-                print("front == ", front)
-                print("l == ", l)
-                print("t == ", t)
-                print('\n')
-        #go backwards to highest point
-        if not stop:
-            pass(self)
-            
-            
-    def trap(self, height: list[int]) -> int:
-        self.stop = None #where to stop early on the second, backwards pass, at the high point
-        self.water = 0 #water found
-        self.front =
+        #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
+        self.front = self.back + self.direction
+        # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
+        self.t = self.front
+        #first, forward, full pass
+        self.walk()
+        self.stop = self.t
+        print("turning around. stop = ", self.stop)
+        self.direction = -1
+        for i, h in enumerate(reversed(self.height)):
+            if h > 0:
+                self.back = i
+                print("back = ", self.back)
+                break
+        self.front = self.back + self.direction
+        self.t = self.back
+        #second, backwards pass to the stop point: the high point
+        self.walk()
         return water
 #height = [0,2,0,3,1,0,1,3,2,1]
 height=[0,1,0,2,1,0,1,3,2,1,2,1]
