@@ -6,8 +6,9 @@ Passed test cases: 1 / 22
 Last executed test case
 
 Input:
-
+            1   1 2 1     1
 height=[0,1,0,2,1,0,1,3,2,1,2,1]
+        0 1 2 3 4 5 6 7 8 9 1011
 
 stdout:
 
@@ -126,34 +127,47 @@ class Solution:
         r = 0 #index of current spot being considered for the right side of a pool
         t = 0 # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
         water = 0 #water found
-        while True:
+        while r != len(height) - 1:
             if height[r] >= height[t]:
                 print("height[r] >= height[t]:")
                 t = r
             if r > l + 1 and height[r] >= height[l]: #found the right side of a pool because it is as high as the left
-                print("counting water with l=", l, " and r=", r)
+                print("counting water with l = ", l, " and r = ", r)
                 water += Solution.count_water(l, t, height)
                 print("water == ", water)
                 #reset values because now searching for next pool
                 t = r
                 l = r
-            elif r == len(height) - 1: 
-                #look for pools where the right side is lower than the left
-                if t < l:
-                    water += Solution.count_water(l, t, height)
-                    print("water == ", water)
-                    l = t
-                    r = t
-                else:
-                    break
             else:
                 r += 1
                 print("r == ", r)
                 print("l == ", l)
                 print("t == ", t)
                 print('\n')
-                
+        #go backwards to highest point
+        stop = t
+        print("turning around. stop = ", stop)
+        l = r - 1
+        t = r
+        while l != stop - 1:
+            if height[l] >= height[t]:
+                print("height[l] >= height[t]:")
+                t = l
+            if l > r + 1 and height[l] >= height[r]: #found the left side of a pool because it is as high as the right
+                print("counting water with r =", r, " and l =", l)
+                water += Solution.count_water(r, t, height)
+                print("water == ", water)
+                #reset values because now searching for next pool
+                t = l
+                r = l
+            else:
+                l -= 1
+                print("l == ", l)
+                print("r == ", r)
+                print("t == ", t)
+                print('\n')
         return water
-height = [0,2,0,3,1,0,1,3,2,1]
+#height = [0,2,0,3,1,0,1,3,2,1]
+height=[0,1,0,2,1,0,1,3,2,1,2,1]
 sol = Solution()
 print(sol.trap(height))
