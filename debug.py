@@ -28,16 +28,14 @@ class Solution:
                 self.t = self.front
             if self.front > self.back + 1 and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
                 print("counting water with self.back = ", self.back, " and self.front = ", self.front)
-                self.water += Solution.count_water(self.back, self.t, self.height)
+                self.water += Solution.count_water(self.back, self.front, self.height)
                 print("water == ", self.water)
                 #reset values because now searching for next pool
-                self.t = self.front
                 self.back = self.front
             else:
                 self.front += self.direction
                 print("front == ", self.front)
                 print("back == ", self.back)
-                print("t == ", self.t)
                 print('\n')
     def trap(self, height: list[int]) -> int:
         self.height = height
@@ -54,8 +52,6 @@ class Solution:
                 break
         #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
         self.front = self.back + self.direction
-        # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
-        self.t = self.front
         #first, forward, full pass
         self.walk()
         self.stop = self.back
