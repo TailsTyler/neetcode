@@ -17,7 +17,7 @@ class Solution:
         stuff_in_between = 0
         for i in range(l + 1, r):
             stuff_in_between += height[i]
-            print("height[", i, "] brings stuff_in_between to ", stuff_in_between)
+            print("height[", i, "] is ", height[i], " brings stuff_in_between to ", stuff_in_between)
         print("new water = rectangle - stuff_in_between = ", rectangle, " - ", stuff_in_between)
         return rectangle - stuff_in_between
     #for passing all the way thru the first time, then backwarks to stop
@@ -25,13 +25,13 @@ class Solution:
         while self.front != self.stop:
             if self.height[self.front] >= self.height[self.t]:
                 print("self.height[self.front] >= self.height[t]:")
-                t = self.front
+                self.t = self.front
             if self.front > self.back + 1 and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
-                print("counting water with l = ", self.back, " and self.front = ", self.front)
-                self.water += Solution.count_water(self.back, t, self.height)
+                print("counting water with self.back = ", self.back, " and self.front = ", self.front)
+                self.water += Solution.count_water(self.back, self.t, self.height)
                 print("water == ", self.water)
                 #reset values because now searching for next pool
-                t = self.front
+                self.t = self.front
                 self.back = self.front
             else:
                 self.front += self.direction
@@ -45,6 +45,7 @@ class Solution:
 
         self.direction = 1 #unit with sign indicating
         self.stop = len(height) - 1 #where to stop on this pass
+        print("self.stop = ", self.stop)
         self.back = 0 #index of back, first-reached-in-this-pass side of a possible pool
         for i, h in enumerate(height):
             if h > 0:
@@ -57,19 +58,19 @@ class Solution:
         self.t = self.front
         #first, forward, full pass
         self.walk()
-        self.stop = self.t
+        self.stop = self.back
         print("turning around. stop = ", self.stop)
         self.direction = -1
-        for i, h in enumerate(reversed(self.height)):
-            if h > 0:
-                self.back = i
-                print("back = ", self.back)
-                break
+        self.back = len(height) - 1
+        while height[self.back] == 0 and self.back >= 0:
+            self.back-=1
+        print("self.back = ", self.back)
         self.front = self.back + self.direction
+        print("self.front = self.back + self.direction = ", self.front)
         self.t = self.back
         #second, backwards pass to the stop point: the high point
         self.walk()
-        return water
+        return self.water
 #height = [0,2,0,3,1,0,1,3,2,1]
 height=[0,1,0,2,1,0,1,3,2,1,2,1]
 sol = Solution()
