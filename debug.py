@@ -22,21 +22,27 @@ class Solution:
         return rectangle - stuff_in_between
     #for passing all the way thru the first time, then backwarks to stop
     def walk(self) -> None:
-        while self.front != self.stop:
-            if self.height[self.front] >= self.height[self.t]:
-                print("self.height[self.front] >= self.height[t]:")
-                self.t = self.front
-            if self.front > self.back + 1 and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
+        if self.direction == 1:
+            forward = True
+        else:
+            forward = False
+        print("forward: ", forward)
+        print(bool(self.front > self.back) == forward and self.front != self.stop)
+        while bool(self.front > self.back) == forward and self.front != self.stop:
+            print("front == ", self.front)
+            print("back == ", self.back)
+            print("\n")
+            if self.front > self.back and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
                 print("counting water with self.back = ", self.back, " and self.front = ", self.front)
                 self.water += Solution.count_water(self.back, self.front, self.height)
                 print("water == ", self.water)
                 #reset values because now searching for next pool
                 self.back = self.front
+                self.front = self.back + self.direction
             else:
+                print("next")
                 self.front += self.direction
-                print("front == ", self.front)
-                print("back == ", self.back)
-                print('\n')
+
     def trap(self, height: list[int]) -> int:
         self.height = height
         self.water = 0 #water found
@@ -48,22 +54,19 @@ class Solution:
         for i, h in enumerate(height):
             if h > 0:
                 self.back = i
-                print("back = ", self.back)
                 break
         #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
         self.front = self.back + self.direction
         #first, forward, full pass
         self.walk()
         self.stop = self.back
-        print("turning around. stop = ", self.stop)
+        print("turning around. stop = ", self.stop, "\n")
         self.direction = -1
         self.back = len(height) - 1
         while height[self.back] == 0 and self.back >= 0:
-            self.back-=1
-        print("self.back = ", self.back)
+            self.back += self.direction
         self.front = self.back + self.direction
-        print("self.front = self.back + self.direction = ", self.front)
-        self.t = self.back
+        print("self.front = self.back + self.direction = ", self.front, "\n")
         #second, backwards pass to the stop point: the high point
         self.walk()
         return self.water
