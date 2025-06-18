@@ -2,21 +2,23 @@
 
 class Solution:
     @staticmethod
-    def count_water(l, r, height) -> int:
-        if l > 0 and r > 0:
-            d = r - l - 1
+    def count_water(back, front, direction, height) -> int:
+        if back > 0 and front > 0:
+            d = abs(front - back) - 1
             print("d = ", d)
         else:
             return 0
-        if r > l:
-            rectangle = height[l] * d
-            print("rectangle = height[l] * d = ", height[l], " * ", d, " = ", height[l] * d)
+        if front > back:
+            rectangle = height[back] * d
+            print("rectangle = height[back] * d = ", height[back], " * ", d, " = ", height[back] * d)
         else:
-            rectangle = height[r] * d
-            print("rectangle = height[r] * d = ", height[r], " * ", d, " = ", height[r] * d)
+            rectangle = height[front] * d
+            print("rectangle = height[front] * d = ", height[front], " * ", d, " = ", height[front] * d)
         stuff_in_between = 0
-        for i in range(l + 1, r):
+        i = back + direction
+        while i != front:
             stuff_in_between += height[i]
+            i+=direction
             print("height[", i, "] is ", height[i], " brings stuff_in_between to ", stuff_in_between)
         print("new water = rectangle - stuff_in_between = ", rectangle, " - ", stuff_in_between)
         return rectangle - stuff_in_between
@@ -26,15 +28,15 @@ class Solution:
             forward = True
         else:
             forward = False
-        print("forward: ", forward)
+        print("forward:", forward)
         print(bool(self.front > self.back) == forward and self.front != self.stop)
         while bool(self.front > self.back) == forward and self.front != self.stop:
             print("front == ", self.front)
             print("back == ", self.back)
             print("\n")
-            if self.front > self.back and self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
+            if self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
                 print("counting water with self.back = ", self.back, " and self.front = ", self.front)
-                self.water += Solution.count_water(self.back, self.front, self.height)
+                self.water += Solution.count_water(self.back, self.front, self.direction, self.height)
                 print("water == ", self.water)
                 #reset values because now searching for next pool
                 self.back = self.front
@@ -76,100 +78,81 @@ sol = Solution()
 print(sol.trap(height))
 
 '''
-Wrong Answer
-
-Passed test cases: 1 / 22
+Traceback (most recent call last):
+  File "/box/script.py", line 96, in main
+    output = solution.trap(input)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/box/script.py", line 75, in trap
+    self.walk()
+  File "/box/script.py", line 49, in walk
+    if self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
+       ~~~~~~~~~~~^^^^^^^^^^^^
+IndexError: list index out of range
 
 Last executed test case
 
 Input:
-            1   1 2 1     1
-height=[0,1,0,2,1,0,1,3,2,1,2,1]
-        0 1 2 3 4 5 6 7 8 9 1011
+          2 4 1 2 = 9
+height=[4,2,0,3,2,5]
+        0 1 2 3 4 5
 
 stdout:
 
-l =  1
-height[r] >= height[t]:
-r ==  1
-l ==  1
-t ==  0
+self.stop =  5
+forward: True
+True
+front ==  1
+back ==  0
 
 
-height[r] >= height[t]:
-r ==  2
-l ==  1
-t ==  1
+next
+front ==  2
+back ==  0
 
 
-r ==  3
-l ==  1
-t ==  1
+next
+front ==  3
+back ==  0
 
 
-height[r] >= height[t]:
-counting water with l= 1  and r= 3
-d =  1
-rectangle = height[l] * d =  1  *  1  =  1
-height[ 2 ] brings stuff_in_between to  0
-new water = rectangle - stuff_in_between =  1  -  0
-water ==  1
-height[r] >= height[t]:
-r ==  4
-l ==  3
-t ==  3
+next
+front ==  4
+back ==  0
 
 
-r ==  5
-l ==  3
-t ==  3
+next
+turning around. stop =  0 
+
+self.front = self.back + self.direction =  4 
+
+forward: False
+True
+front ==  4
+back ==  5
 
 
-r ==  6
-l ==  3
-t ==  3
+next
+front ==  3
+back ==  5
 
 
-r ==  7
-l ==  3
-t ==  3
+next
+front ==  2
+back ==  5
 
 
-height[r] >= height[t]:
-counting water with l= 3  and r= 7
-d =  3
-rectangle = height[l] * d =  2  *  3  =  6
-height[ 4 ] brings stuff_in_between to  1
-height[ 5 ] brings stuff_in_between to  1
-height[ 6 ] brings stuff_in_between to  2
-new water = rectangle - stuff_in_between =  6  -  2
-water ==  5
-height[r] >= height[t]:
-r ==  8
-l ==  7
-t ==  7
+next
+front ==  1
+back ==  5
 
 
-r ==  9
-l ==  7
-t ==  7
-
-
-r ==  10
-l ==  7
-t ==  7
-
-
-r ==  11
-l ==  7
-t ==  7
-
+next
 
 Your Output:
 
-5
+0
 
 Expected output:
 
-6
+9
 '''
