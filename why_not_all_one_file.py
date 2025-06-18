@@ -304,44 +304,82 @@ class Solution:
 
 
 
+
+
 class Solution:
     @staticmethod
-    def count_water(l, r, height) -> int:
-        if l > 0 and r > 0:
-            d = r - l
+    def count_water(back, front, direction, height) -> int:
+        if height[back] > 0 and height[front] > 0:
+            d = abs(front - back) - 1
+            print("d = ", d)
         else:
             return 0
-        if r > l:
-            rectangle = l * d
+        if height[front] > height[back]:
+            rectangle = height[back] * d
+            print("rectangle = height[back] * d = ", height[back], " * ", d, " = ", height[back] * d)
         else:
-            rectangle = r * d
+            rectangle = height[front] * d
+            print("rectangle = height[front] * d = ", height[front], " * ", d, " = ", height[front] * d)
         stuff_in_between = 0
-        for i in range(l + 1, r):
+        i = back + direction
+        while i != front:
             stuff_in_between += height[i]
+            i+=direction
+            print("height[", i, "] is ", height[i], " brings stuff_in_between to ", stuff_in_between)
+        print("new water = rectangle - stuff_in_between = ", rectangle, " - ", stuff_in_between)
         return rectangle - stuff_in_between
-    def trap(self, height: List[int]) -> int:
-        l = 0 #index of left side of a possible pool
-        r = 0 #index of current spot being considered for the right side of a pool
-        t = 0 # index of rightmost tallest found so far to the right of l. Used to find pools when there is no wall as high as height[l]
-        water = 0 #water found
-        while True:
-            if height[r] >= height[t]:
-                t = r
-            if r > l + 1 and height[r] >= height[l]: #found the right side of a pool because it is as high as the left
-                Solution.count_water(l, r, height)
-                print("water == ", water)
-                #reset values because now seaarching for next pool
-                t = r
-                l = r
-            elif r == len(height) - 1: 
-                #look for pools where the right side is lower than the left
-                if t > l:
-                    water += Solution.count_water(l, t, height)
-                    print("water == ", water)
-                    l = t
-                    r = t
+    #for passing all the way thru the first time, then backwarks to stop
+    def walk(self) -> None:
+        if self.direction == 1:
+            forward = True
+        else:
+            forward = False
+        print("forward:", forward)
+        print(bool(self.front > self.back) == forward and self.front != self.stop)
+        while bool(self.front > self.back) == forward and self.front != self.stop + self.direction:
+            print("front == ", self.front)
+            print("back == ", self.back)
+            print("\n")
+            if self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
+                print("counting water with self.back = ", self.back, " and self.front = ", self.front)
+                self.water += Solution.count_water(self.back, self.front, self.direction, self.height)
+                print("water == ", self.water)
+                #reset values because now searching for next pool
+                self.back = self.front
+                self.front = self.back + self.direction
             else:
-                r += 1
-                print("r == ", r)
-                
-        return water
+                print("next")
+                self.front += self.direction
+
+    def trap(self, height: List[int]) -> int:
+        if len(height) == 1:
+            return 0
+        self.height = height
+        self.water = 0 #water found
+
+        self.direction = 1 #unit with sign indicating
+        self.stop = len(height) - 1 #where to stop on this pass
+        print("self.stop = ", self.stop)
+        self.back = 0 #index of back, first-reached-in-this-pass side of a possible pool
+        for i, h in enumerate(height):
+            if h > 0:
+                self.back = i
+                break
+        #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
+        self.front = self.back + self.direction
+        #first, forward, full pass
+        self.walk()
+        self.stop = self.back
+        print("turning around. stop = ", self.stop, "\n")
+        self.direction = -1
+        self.back = len(height) - 1
+        while height[self.back] == 0 and self.back >= 0:
+            self.back += self.direction
+        self.front = self.back + self.direction
+        print("self.front = self.back + self.direction = ", self.front, "\n")
+        #second, backwards pass to the stop point: the high point
+        self.walk()
+        return self.water
+height=[4,2,3]
+sol = Solution()
+print(sol.trap(height))
