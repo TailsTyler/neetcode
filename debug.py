@@ -3,7 +3,7 @@
 class Solution:
     @staticmethod
     def count_water(back, front, direction, height) -> int:
-        if back > 0 and front > 0:
+        if height[back] > 0 and height[front] > 0:
             d = abs(front - back) - 1
             print("d = ", d)
         else:
@@ -30,7 +30,7 @@ class Solution:
             forward = False
         print("forward:", forward)
         print(bool(self.front > self.back) == forward and self.front != self.stop)
-        while bool(self.front > self.back) == forward and self.front != self.stop:
+        while bool(self.front > self.back) == forward and self.front != self.stop + self.direction:
             print("front == ", self.front)
             print("back == ", self.back)
             print("\n")
@@ -46,6 +46,8 @@ class Solution:
                 self.front += self.direction
 
     def trap(self, height: list[int]) -> int:
+        if len(height) == 1:
+            return 0
         self.height = height
         self.water = 0 #water found
 
@@ -72,33 +74,24 @@ class Solution:
         #second, backwards pass to the stop point: the high point
         self.walk()
         return self.water
-#height = [0,2,0,3,1,0,1,3,2,1]
-height=[0,1,0,2,1,0,1,3,2,1,2,1]
+height=[4,2,0,3,2,5]
 sol = Solution()
 print(sol.trap(height))
 
 '''
-Traceback (most recent call last):
-  File "/box/script.py", line 96, in main
-    output = solution.trap(input)
-             ^^^^^^^^^^^^^^^^^^^^
-  File "/box/script.py", line 75, in trap
-    self.walk()
-  File "/box/script.py", line 49, in walk
-    if self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
-       ~~~~~~~~~~~^^^^^^^^^^^^
-IndexError: list index out of range
+Wrong Answer
+
+Passed test cases: 7 / 22
 
 Last executed test case
 
 Input:
-          2 4 1 2 = 9
-height=[4,2,0,3,2,5]
-        0 1 2 3 4 5
+
+height=[4,2,3]
 
 stdout:
 
-self.stop =  5
+self.stop =  2
 forward: True
 True
 front ==  1
@@ -111,48 +104,33 @@ back ==  0
 
 
 next
-front ==  3
-back ==  0
-
-
-next
-front ==  4
-back ==  0
-
-
-next
 turning around. stop =  0 
 
-self.front = self.back + self.direction =  4 
+self.front = self.back + self.direction =  1 
 
 forward: False
 True
-front ==  4
-back ==  5
-
-
-next
-front ==  3
-back ==  5
-
-
-next
-front ==  2
-back ==  5
-
-
-next
 front ==  1
-back ==  5
+back ==  2
 
 
 next
+front ==  0
+back ==  2
+
+
+counting water with self.back =  2  and self.front =  0
+d =  1
+rectangle = height[front] * d =  4  *  1  =  4
+height[ 0 ] is  4  brings stuff_in_between to  2
+new water = rectangle - stuff_in_between =  4  -  2
+water ==  2
 
 Your Output:
 
-0
+2
 
 Expected output:
 
-9
+1
 '''
