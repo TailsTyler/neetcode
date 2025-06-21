@@ -383,3 +383,5 @@ class Solution:
 height=[4,2,3]
 sol = Solution()
 print(sol.trap(height))
+
+
