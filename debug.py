@@ -31,7 +31,7 @@ class Solution:
         return ans
 
 s = Solution()
-n = int(sys.argv[1])  # gets the first argument after the script name
+n = int(sys.argv[1])  # gets the first argument after the script name, like  "python3 debug.py n"
 print(s.generateParenthesis(n))
 
             
@@ -41,7 +41,7 @@ if 1 retun () else return prev except for each one, (.), .+(), and if .+() was n
 
 Your Output:
 
-["(((())))","((()()))","((())())","(()(()))","(()()())","((()))()","()((()))","(()())()","()(()())","(())()()","()(())()","()(())()","()()(())","()()()()"]
+['(((())))', '((()()))', '((())())', '(()(()))', '(()()())', '((()))()', '()((()))', '(()())()', '()(()())', '(())()()', '()(())()', '()(())()', '()()(())', '()()()()']
 
 Expected output:
 
