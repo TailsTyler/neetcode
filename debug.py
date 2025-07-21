@@ -13,20 +13,26 @@ class Solution:
         return True
     def generateParenthesis(self, n: int) -> list[str]:
         ans = ['()']
-        while n > 1:
-            for i in range(len(ans)):
-                ans.append(ans[i] + "()")
+        while n > 1: #grow the set one by one, starting with n=1
+            for i in range(len(ans)): #consider each potential growth for each element
+                potential = ans[i] + "()"
+                if ans[-1] != potential:
+                    ans.append(potential)
                 print("ans[-1]: ", print(ans[-1]))
                 if not self.is_nested(ans[-1]):
-                    print("here")
+                    print("ans[-1] is not nested." )
                     potential = "()" + ans[i]
+                    print("considering adding ", potential)
                     try:
                         if ans.index(potential) == -1:
+                            print("ans.index(potential): ", ans.index(potential))
+                            print("so won't add it")
                             pass
                     except:
+                        print("so added it")
                         ans.append(potential)
                 ans[i] = "(" + ans[i] + ")"
-                print("ans: ", ans)
+                print( ans)
             n-=1
         return ans
 
@@ -36,25 +42,20 @@ print(s.generateParenthesis(n))
 
             
 '''
-if 1 retun () else return prev except for each one, (.), .+(), and if .+() was not sym, then ()+., too 
+if 1 return () else return prev except replace each one [.] with: (.), .(), and if .() was not sym, then ()+., too 
 
 
 Your Output:
 
-['(((())))', '((()()))', '((())())', '(()(()))', '(()()())', '((()))()', '()((()))', '(()())()', '()(()())', '(())()()', '()(())()', '()(())()', '()()(())', '()()()()']
+["(((())))","((()()))","((())())","(()(()))","(()()())","((()))()","()((()))","(()())()","()(()())","(())()()","()(())()","()()(())","()()()()"]
 
 Expected output:
 
 ["(((())))","((()()))","((())())","((()))()","(()(()))","(()()())","(()())()","(())(())","(())()()","()((()))","()(()())","()(())()","()()(())","()()()()"]
 
-['(((())))', '((()()))', '((())())', '(()()())', '((()))()', '(()())()', '(())()()', '()()()()']
-
 ----
 
-Input: n = 3
 
-Output: ["((()))","(()())","(())()","()(())","()()()"]
-['((()))', '(()())', '(())()', '()()()']
 
 
 
