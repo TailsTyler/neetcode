@@ -2,38 +2,24 @@ import sys
 
 
 class Solution:
-    def is_nested(self, s):
-        print("checking if nested: ", s)
-        while len(s) > 0:
-            if s[0:2] == '()':
-                s = s[2:]
-                print("left to check: ", s)
-            else:
-                return False
-        return True
     def generateParenthesis(self, n: int) -> list[str]:
-        ans = ['()']
-        while n > 1: #grow the set one by one, starting with n=1
-            for i in range(len(ans)): #consider each potential growth for each element
-                potential = ans[i] + "()"
-                if ans[-1] != potential:
-                    ans.append(potential)
-                print("ans[-1]: ", print(ans[-1]))
-                if not self.is_nested(ans[-1]):
-                    print("ans[-1] is not nested." )
-                    potential = "()" + ans[i]
-                    print("considering adding ", potential)
-                    try:
-                        if ans.index(potential) == -1:
-                            print("ans.index(potential): ", ans.index(potential))
-                            print("so won't add it")
-                            pass
-                    except:
-                        print("so added it")
-                        ans.append(potential)
-                ans[i] = "(" + ans[i] + ")"
-                print( ans)
-            n-=1
+        ans = []
+
+        '''open_n, closed_n: num of type of parens so far
+        w: an element in the answer being worked on. eg if n == 2, '((' is an element being worked on that will become '(())' and then be added to the ans'''
+        def tree(open_n, closed_n, w):
+            if open_n == closed_n == n:
+                ans.append(w)
+                return
+            elif open_n < n:
+                w += '('
+                tree(open_n + 1, closed_n, w)
+                w = ''
+            if closed_n < open_n:
+                w += ')'
+                tree(open_n, closed_n + 1, w)
+                w = ''
+        tree(0, 0, '')
         return ans
 
 s = Solution()
