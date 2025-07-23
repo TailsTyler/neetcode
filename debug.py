@@ -10,6 +10,7 @@ class Solution:
         def tree(open_n, closed_n, w):
             if open_n == closed_n == n:
                 ans.append(w)
+                print("ans: ", ans)
                 return
             elif open_n < n:
                 w += '('
