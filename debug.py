@@ -1,4 +1,7 @@
 import sys
+import unittest
+
+
 
 class Solution:
     def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
@@ -11,34 +14,38 @@ class Solution:
         count = 0
         print (ans)
         while i < len(temperatures):
-            if temperatures[i] > high:
-                new_high_i = i
-                print("new_high_i: ", new_high_i)
-                high = temperatures[new_high_i]
-                print("high: ", high)
+            if i == 2:
+                pass
+            if temperatures[i] > temperatures[i - 1] and ans[i - 1] == 0:
+                nonlowest_i = i #an index of a day that could have colder unsolved days before it 
                 ans[i - 1] = 1
-                print("ans[i - 1] = 1: ", ans)
+                if temperatures[i] > high:
+                    new_high_i = i
+                    high = temperatures[new_high_i]
+                i_to_return_to = i
                 i -= 1
-                while i > high_i and temperatures[i - 1] <= temperatures[i]:
-                    print("i > high_i and temperatures[i - 1] <= temperatures[i]")
-                    if  ans[i - 1] == 0:
-                        ans[i - 1] = ans[i] + 1
-                        print("ans[1]: ", ans)
+                while i > high_i:
+                    if  ans[i - 1] == 0 and temperatures[i - 1] < temperatures[nonlowest_i]:
+                        ans[i - 1] = nonlowest_i - i + 1
                     i -= 1
-                high_i = new_high_i
-                print("high_i: ", high_i)
-                i = new_high_i + 1
-                print("high: ", high, " new_high_i: ", new_high_i)
-                print("in i:", i)
+                i = i_to_return_to
+                try:
+                    high_i = new_high_i
+                    i = new_high_i + 1
+                except:
+                    pass
+                high = temperatures[high_i]
             else:
                 i += 1
-                print("out i:", i)
         return ans
 
 
 s = Solution()
-n = [30,38,30,36,35,40,28]  # gets the first argument after the script name, like  "python3 debug.py n"
+n = [1,2,3,4]  # gets the first argument after the script name, like  "python3 debug.py n"
 print(s.dailyTemperatures(n))
+
+# if __name__ == "__main__":
+#     unittest.main()
 
             
 '''
