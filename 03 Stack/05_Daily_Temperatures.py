@@ -1,3 +1,5 @@
+#todo: implement the cleaner solution recommended
+
 class Solution:
     def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
         print(temperatures)

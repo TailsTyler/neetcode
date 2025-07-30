@@ -3,12 +3,19 @@
 import sys
 import unittest
 
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        
+# Input: target = 10, position = [4,1,0,7], speed = [2,2,1,1]
 
+# Output: 3
 
+t = 10
+p = [4,1,0,7]
+s = [2,2,1,1]
 
 s = Solution()
-n = [1,2,3,4]  # gets the first argument after the script name, like  "python3 debug.py n"
-print(s.dailyTemperatures(n))
+print(s.carFleet(t, p, s))
 
 # if __name__ == "__main__":
 #     unittest.main()
