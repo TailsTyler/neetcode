@@ -227,78 +227,6 @@ def first_non_neg_in_sorted_list(sorted_list):
             left = mid + 1
     return 2
 
-class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        nums.sort()
-        ans = []
-        if nums[0] > 0:
-            print("no nonpositives")
-            return ans
-        if nums[-1] < 0:
-            print ('no nonnegitives')
-            return ans
-        i = 0
-        j = 1
-        print(nums)
-        first_non_neg = first_non_neg_in_sorted_list(nums)
-        k = first_non_neg
-        print("k: ", k, "(index of ",  nums[k], ")")
-        nums_i = nums[i]
-        while nums_i <= 0:
-            k = max(first_non_neg, i + 2)
-            print("k: ", k)#, "(index of ",  nums[k], ")")
-            while k < len(nums):
-                nums_at_j_must_be = -(nums[i] + nums[k])
-                print("nums_at_j_must_be: ", nums_at_j_must_be)
-                try:
-                    j = nums.index(nums_at_j_must_be, i + 1, k)
-                    print("j: ", j)
-                    while True:
-                        try:
-                            q = ans.index([nums[i], nums[j], nums[k]])
-                            print([nums[i], nums[j], nums[k]], " is already at ", q)
-                        except:
-                            ans.append([nums[i], nums[j], nums[k]])
-                            print("added ", [nums[i], nums[j], nums[k]])
-                        j+=1
-                        if j == k or nums[j] != nums_at_j_must_be:
-                            break
-                except:
-                    print(nums_at_j_must_be, " not found")
-                k+=1
-            i+=1
-            try:
-                nums_i = nums[i]
-            except:
-                break
-            print("i: ", i)#, " which has a ", nums[i])
-        return ans
-
-
-
-
-
-class Solution:
-    def maxArea(self, heights: List[int]) -> int:
-        l = 0
-        r = len(heights) - 1
-        area = 0
-        while True:
-            d = r - l
-            new_area = min(heights[l], heights[r]) * d
-            if new_area > area:
-                area = new_area
-
-                print("area is now ", area, " since heights[l] == ", heights[l], " and heights[r] == ", heights[r], " and the distance is ", d)
-            if heights[l] < heights[r]:
-                l+=1
-                print("left is now ", heights[l])
-            else:
-                r-=1
-                print("right is now ", heights[r])
-            if l == r:
-                break
-        return area
 
 
 
@@ -306,138 +234,20 @@ class Solution:
 
 
 
-class Solution:
-    @staticmethod
-    def count_water(back, front, direction, height) -> int:
-        if height[back] > 0 and height[front] > 0:
-            d = abs(front - back) - 1
-            print("d = ", d)
-        else:
-            return 0
-        if height[front] > height[back]:
-            rectangle = height[back] * d
-            print("rectangle = height[back] * d = ", height[back], " * ", d, " = ", height[back] * d)
-        else:
-            rectangle = height[front] * d
-            print("rectangle = height[front] * d = ", height[front], " * ", d, " = ", height[front] * d)
-        stuff_in_between = 0
-        i = back + direction
-        while i != front:
-            stuff_in_between += height[i]
-            i+=direction
-            print("height[", i, "] is ", height[i], " brings stuff_in_between to ", stuff_in_between)
-        print("new water = rectangle - stuff_in_between = ", rectangle, " - ", stuff_in_between)
-        return rectangle - stuff_in_between
-    #for passing all the way thru the first time, then backwarks to stop
-    def walk(self) -> None:
-        if self.direction == 1:
-            forward = True
-        else:
-            forward = False
-        print("forward:", forward)
-        print(bool(self.front > self.back) == forward and self.front != self.stop)
-        while bool(self.front > self.back) == forward and self.front != self.stop + self.direction:
-            print("front == ", self.front)
-            print("back == ", self.back)
-            print("\n")
-            if self.height[self.front] >= self.height[self.back]: #found the right side of a pool because it is as high as the left
-                print("counting water with self.back = ", self.back, " and self.front = ", self.front)
-                self.water += Solution.count_water(self.back, self.front, self.direction, self.height)
-                print("water == ", self.water)
-                #reset values because now searching for next pool
-                self.back = self.front
-                self.front = self.back + self.direction
-            else:
-                print("next")
-                self.front += self.direction
-
-    def trap(self, height: List[int]) -> int:
-        if len(height) == 1:
-            return 0
-        self.height = height
-        self.water = 0 #water found
-
-        self.direction = 1 #unit with sign indicating
-        self.stop = len(height) - 1 #where to stop on this pass
-        print("self.stop = ", self.stop)
-        self.back = 0 #index of back, first-reached-in-this-pass side of a possible pool
-        for i, h in enumerate(height):
-            if h > 0:
-                self.back = i
-                break
-        #index of current spot being considered for the front side of a pool, ie the side that is new and farther in the direction of the pass
-        self.front = self.back + self.direction
-        #first, forward, full pass
-        self.walk()
-        self.stop = self.back
-        print("turning around. stop = ", self.stop, "\n")
-        self.direction = -1
-        self.back = len(height) - 1
-        while height[self.back] == 0 and self.back >= 0:
-            self.back += self.direction
-        self.front = self.back + self.direction
-        print("self.front = self.back + self.direction = ", self.front, "\n")
-        #second, backwards pass to the stop point: the high point
-        self.walk()
-        return self.water
-height=[4,2,3]
-sol = Solution()
-print(sol.trap(height))
 
 
 
-class Solution:
-    def isValid(self, s: str) -> bool:
-        opens = '({['
-        closes = ')}]'
-        print(s)
-        collection = []
-        i = 0
-        while i < len(s) - 1:
-            try:
-                open = opens.index(s[i])
-            except:
-                open = None
-            if open:
-                collection.append(open)
-            else:
-                try:
-                    if collection[-1] == closes.index(s[i]):
-                        collection = collection[1:]
-                    else:
-                        print("a")
-                        return False
-                except:
-                    return False
-                    print("b")
-            i+=1
-        return True
-s="([{}])"
-sol = Solution()
-print(sol.isValid(s))
 
 
-class Solution:
-    def generateParenthesis(self, n: int) -> list[str]:
-        ans = []
 
-        '''open_n, closed_n: num of type of parens so far
-        w: an element in the answer being worked on. eg if n == 2, '((' is an element being worked on that will become '(())' and then be added to the ans'''
-        def tree(open_n, closed_n, w):
-            if open_n == closed_n == n:
-                ans.append(w)
-                print("ans: ", ans)
-                return
-            if open_n < n:
-                w += '('
-                tree(open_n + 1, closed_n, w)
-                w = w[0:-1]
-            if closed_n < open_n:
-                w += ')'
-                tree(open_n, closed_n + 1, w)
-                w = w[0:-1]
-        tree(0, 0, '')
-        return ans
+
+
+
+
+
+
+
+
 
 
 
